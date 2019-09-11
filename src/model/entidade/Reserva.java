@@ -42,9 +42,18 @@ public class Reserva {
 		//return diferenca;
 	}
 	
-	public void atualizacaoHospedagem(Date dataEntrada, Date dataSaida) {
+	public String atualizacaoHospedagem(Date dataEntrada, Date dataSaida) {
+		Date dataAtual = new Date();
+		
+		if(dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
+			return "Erro na atualizacao\nAtualizacao deve ser feita com datas futuras.!!!";
+		} 
+		if(!dataSaida.after(dataEntrada)) {
+			return "Erro na reserva!\nA data de saida tem que ser posterior a data de entrada!";
+		}
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
+		return null;
 	}
 
 	@Override

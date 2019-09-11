@@ -38,24 +38,13 @@ public class Programa {
 			System.out.println("Digite a data de saida(dd/mm/aaaa): ");
 			dataSaida = sdf.parse(sc.next());
 			
-			Date dataAtual = new Date();
-			
-			if(dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
-				System.out.println("Erro na atualizacao!!!");
-				System.out.println("Atualizacao deve ser feita com datas futuras.");
-				return ;
-			}else if(!dataSaida.after(dataEntrada)) {
-				System.out.println("Erro na reserva!\nA data de saida tem que ser posterior a data de entrada!");
+			String erro = reserva.atualizacaoHospedagem(dataEntrada, dataSaida);
+			if(erro != null) {
+				System.out.println("Erro na reserva: "+ erro);
 			}else {
-			
-				reserva.atualizacaoHospedagem(dataEntrada, dataSaida);
 				System.out.println("Reserva: "+reserva.toString());
-			}
-			
+			}		
 		}
-		
-		
-		
 		sc.close();
 	}
 
