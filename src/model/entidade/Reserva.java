@@ -3,6 +3,7 @@ package model.entidade;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import model.excessoes.DominioExcessao;
 
 public class Reserva {
 	
@@ -12,7 +13,10 @@ public class Reserva {
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public Reserva(Integer numeroQuarto, Date dataEntrada, Date dataSaida) {
+	public Reserva(Integer numeroQuarto, Date dataEntrada, Date dataSaida)  {
+		if(!dataSaida.after(dataEntrada)) {
+			throw new DominioExcessao("Erro na reserva! A data de saida tem que ser posterior a data de entrada!");
+		}
 		this.numeroQuarto = numeroQuarto;
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
@@ -42,18 +46,15 @@ public class Reserva {
 		//return diferenca;
 	}
 	
-	public String atualizacaoHospedagem(Date dataEntrada, Date dataSaida) {
+	public void  atualizacaoHospedagem(Date dataEntrada, Date dataSaida){
 		Date dataAtual = new Date();
 		
 		if(dataEntrada.before(dataAtual) || dataSaida.before(dataAtual)) {
-			return "Erro na atualizacao\nAtualizacao deve ser feita com datas futuras.!!!";
+			throw new DominioExcessao("Erro de atualizacao! Atualizacao deve ser feita com datas futuras.!!!");
 		} 
-		if(!dataSaida.after(dataEntrada)) {
-			return "Erro na reserva!\nA data de saida tem que ser posterior a data de entrada!";
-		}
+		
 		this.dataEntrada = dataEntrada;
 		this.dataSaida = dataSaida;
-		return null;
 	}
 
 	@Override
